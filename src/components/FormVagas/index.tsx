@@ -1,31 +1,34 @@
-import { FormEvent, useState } from 'react'
+import React, { useState, FormEvent, ChangeEvent } from 'react'
+import { Container, Input, Button } from './styles'
 
-import styles from './FormVagas.module.css'
+export default function FormVagas() {
+  const [email, setEmail] = useState('')
+  const [message, setMessage] = useState('')
 
-type Props = {
-  aoPesquisar: (termo: string) => void
-}
-
-const FormVagas = ({ aoPesquisar }: Props) => {
-  const [termo, setTermo] = useState<string>('')
-
-  const aoEnviarForm = (e: FormEvent<HTMLFormElement>) => {
+  const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault()
-    aoPesquisar(termo.toLocaleLowerCase())
+    console.log({ email, message })
   }
 
   return (
-    <form className={styles.form} onSubmit={aoEnviarForm}>
-      <input
-        className={styles.campo}
-        placeholder="Front-end, fullstack, node, design"
-        onChange={(e) => setTermo(e.target.value)}
-        type="search"
+    <Container onSubmit={handleSubmit}>
+      <Input
+        type="email"
+        placeholder="Seu email"
+        value={email}
+        onChange={(e: ChangeEvent<HTMLInputElement>) =>
+          setEmail(e.target.value)
+        }
       />
-      <button className={styles.btnPesquisar} type="submit">
-        Pesquisar
-      </button>
-    </form>
+      <Input
+        type="text"
+        placeholder="Sua mensagem"
+        value={message}
+        onChange={(e: ChangeEvent<HTMLInputElement>) =>
+          setMessage(e.target.value)
+        }
+      />
+      <Button type="submit">Enviar</Button>
+    </Container>
   )
 }
-export default FormVagas
